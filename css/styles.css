@@ -1,0 +1,98 @@
+/*****************************************************
+ * Magic Mirror                                      *
+ * MMM-Bring CSS                                     *
+ *                                                   *
+ * By David Werth                                    *
+ *                                                   *
+ * Edit this file ONLY if you know what you're doing *
+ *****************************************************/
+
+@font-face {
+    font-family: "MuseoSans-300";
+    src: url("MuseoSans-300.woff") format("woff");
+}
+
+@font-face {
+    font-family: "MuseoSans-500";
+    src: url("MuseoSans-500.woff") format("woff");
+}
+
+.bring-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+h3 {
+    margin: 10px 0;
+}
+
+.bring-list-item-content {
+    display: flex;
+    flex-direction: column;
+    width: 98px;
+    height: 116px;
+    margin: 2px;
+    font-size: 14px;
+    font-style: normal;
+    color: white;
+    text-align: center;
+}
+
+.bring-list-item-upper-part-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 60px;
+    align-items: center;
+}
+
+.bring-list-item-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 65px;
+    min-width: 65px;
+}
+
+.bring-list-item-image-container > img {
+    max-height: 50px;
+    max-width: 65px;
+}
+
+.bring-list-item-text-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 43px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.bring-list-item-name {
+    display: block;
+    width: 90px;
+    min-height: 17px;
+    max-height: 27px;
+    padding-top: 2px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: .95em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    font-family: MuseoSans-500, sans-serif;
+}
+
+.bring-list-item-specification-label {
+    height: 16px;
+    width: 90px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 1px;
+    font-family: MuseoSans-300, sans-serif;
+}
