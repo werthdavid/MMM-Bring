@@ -12,13 +12,23 @@ module.exports = NodeHelper.create({
         if (notification === "GET_LIST") {
             if (!this.client) {
                 this.client = new BringClient(payload);
-                this.client.getLists();
+                // Wait for Login
+                setTimeout(() => {
+                    this.client.getLists().then(lists => {
+                        this.getList(payload);
+                    });
+                }, 1500);
+            } else {
+                this.getList(payload);
             }
-            this.client.getList(true, payload.listName).then(list => {
-                this.list = list;
-                this.sendSocketNotification("LIST_DATA", list);
-            });
             return true;
         }
     },
+
+    getList: function (payload) {
+        this.client.getList(true, payload.listName).then(list => {
+            this.list = list;
+            this.sendSocketNotification("LIST_DATA", list);
+        });
+    }
 });

@@ -1,28 +1,34 @@
 const axios = require("axios");
 const Store = require("data-store");
+const querystring = require("querystring");
 
 class BringClient {
 
     constructor(opts) {
-        this.userId = "";
+        this.userId = undefined;
+        this.articles = undefined;
         this.defaultListId = "";
         this.store = new Store({path: "bring.config.json", cwd: "store"});
         this._init(opts);
     }
 
     _init(opts) {
-        if (this.mustLogin()) {
-            this.login(opts.email, opts.password);
-        }
+        axios.defaults.headers.common["X-BRING-API-KEY"] = "cof4Nc6D8saplXjE3h3HXqHH8m7VU2i1Gs0g85Sp";
         this.locale = "de-DE";
         if (opts.locale) {
             this.locale = opts.locale;
         }
-        this.articles = undefined;
-        this.userId = this.store.get("user_id");
-        this.defaultListId = this.store.get("default_list_id");
-        axios.defaults.headers.common["Authorization"] = "Bearer " + this.store.get("access_token");
-        axios.defaults.headers.common["X-BRING-API-KEY"] = "cof4Nc6D8saplXjE3h3HXqHH8m7VU2i1Gs0g85Sp";
+        if (this.mustLogin()) {
+            this.login(opts.email, opts.password).then(() => {
+                this.userId = this.store.get("user_id");
+                this.defaultListId = this.store.get("default_list_id");
+                axios.defaults.headers.common["Authorization"] = "Bearer " + this.store.get("access_token");
+            });
+        } else {
+            this.userId = this.store.get("user_id");
+            this.defaultListId = this.store.get("default_list_id");
+            axios.defaults.headers.common["Authorization"] = "Bearer " + this.store.get("access_token");
+        }
     }
 
     mustLogin() {
@@ -30,20 +36,16 @@ class BringClient {
     }
 
     login(email, password) {
-        axios.post("https://api.getbring.com/rest/v2/bringauth", {
-            email,
-            password
-        }).then(function (response) {
+        return axios.post("https://api.getbring.com/rest/v2/bringauth", querystring.stringify({
+            email: email,
+            password: password
+        })).then(response => {
             const loginObj = response.data;
             this.store.set("user_id", loginObj["uuid"]);
             this.store.set("default_list_id", loginObj["bringListUUID"]);
             this.store.set("access_token", loginObj["access_token"]);
             this.store.set("valid_until", new Date().getTime() + (loginObj["expires_in"] * 1000));
         });
-        this.store.set("user_id", loginObj["uuid"]);
-        this.store.set("default_list_id", loginObj["bringListUUID"]);
-        this.store.set("access_token", loginObj["access_token"]);
-        this.store.set("valid_until", new Date().getTime() + (loginObj["expires_in"] * 1000));
     }
 
     getLists() {
