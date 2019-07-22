@@ -29,7 +29,8 @@ Add this configuration into `config.js` file's
        latestItemColor: "#4FABA2",
        showLatestItems: false,
        maxItems: 0,
-       maxLatestItems: 0
+       maxLatestItems: 0,
+       locale: "de-DE"
     }
 }
 ```
@@ -53,3 +54,28 @@ Here is the configurable part of the module
 | `showLatestItems`    | Flag for displaying recently bought items. <br>**Type:** `boolean` <br> **Default value:** `false`
 | `maxItems`           | Maximum items to display. <br>**Type:** `number` <br> **Default value:** `0` (all)
 | `maxLatestItems`     | Maximum recent items to display. <br>**Type:** `number` <br> **Default value:** `0` (all)
+| `locale`             | The locale. <br>**Type:** `string` <br> **Default value:** `de-DE`
+
+
+### Valid locales
+
+* de-AT
+* de-CH
+* de-DE
+* es-ES
+* en-GB
+* en-US
+* en-CA
+* en-AU
+* fr-CH
+* fr-FR
+* it-CH
+* it-IT
+* pt-BR
+* nl-NL
+* hu-HU
+* nb-NO
+* pl-PL
+* ru-RU
+* sv-SE
+* tr-TR

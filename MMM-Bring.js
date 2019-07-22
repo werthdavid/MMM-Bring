@@ -9,7 +9,8 @@ Module.register("MMM-Bring", {
         latestItemColor: "#4FABA2",
         showLatestItems: false,
         maxItems: 0,
-        maxLatestItems: 0
+        maxLatestItems: 0,
+        locale: "de-DE"
     },
 
     getStyles: function () {
