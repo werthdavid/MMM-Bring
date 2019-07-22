@@ -96,3 +96,7 @@ h3 {
     padding-top: 1px;
     font-family: MuseoSans-300, sans-serif;
 }
+
+.bring-top_right, .bring-top_left, .bring-top_center, .bring-bottom_left, .bring-bottom_center, .bring-bottom_right {
+    max-width: 33vw;
+}

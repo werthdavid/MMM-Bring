@@ -26,7 +26,7 @@ Module.register("MMM-Bring", {
 
     getDom: function () {
         const container = document.createElement("div");
-        container.className = "bring-list-container";
+        container.className = "bring-list-container bring-" + this.data.position;
 
         if (this.list && this.list.name) {
             const title = document.createElement("h3");
