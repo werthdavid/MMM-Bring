@@ -22,6 +22,18 @@ module.exports = NodeHelper.create({
                 this.getList(payload);
             }
             return true;
+        } else if (notification === "PURCHASED_ITEM") {
+            if (payload.purchase) {
+                this.client.recently(payload.name, payload.listId).then(() => {
+                    this.sendSocketNotification("RELOAD_LIST");
+                });
+            } else {
+                this.client.purchase(payload.name, payload.listId).then(() => {
+                    this.sendSocketNotification("RELOAD_LIST");
+                });
+            }
+
+            return true;
         }
     },
 

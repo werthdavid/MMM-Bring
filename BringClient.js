@@ -142,6 +142,30 @@ class BringClient {
             .replace(/__/g, "_")
             .toLowerCase() + ".png";
     }
+
+    purchase(itemName, listId) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };
+        return axios.put("https://api.getbring.com/rest/v2/bringlists/" + listId, querystring.stringify({
+            uuid: listId,
+            purchase: itemName
+        }), config);
+    }
+
+    recently(itemName, listId) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };
+        return axios.put("https://api.getbring.com/rest/v2/bringlists/" + listId, querystring.stringify({
+            uuid: listId,
+            recently: itemName
+        }), config);
+    }
 }
 
 module.exports = BringClient;

@@ -47,6 +47,7 @@ Module.register("MMM-Bring", {
                 const bringListItem = document.createElement("div");
                 bringListItem.className = "bring-list-item-content";
                 bringListItem.style = "background-color: " + this.config.activeItemColor;
+                bringListItem.onclick = () => this.itemClicked({name: this.list.purchase[i].name, purchase: true, listId: this.list.uuid});
 
                 const upperPartContainer = document.createElement("div");
                 upperPartContainer.className = "bring-list-item-upper-part-container";
@@ -90,6 +91,7 @@ Module.register("MMM-Bring", {
                 const bringListItem = document.createElement("div");
                 bringListItem.className = "bring-list-item-content";
                 bringListItem.style = "background-color: " + this.config.latestItemColor;
+                bringListItem.onclick = () => this.itemClicked({name: this.list.recently[i].name, purchase: false, listId: this.list.uuid});
 
                 const upperPartContainer = document.createElement("div");
                 upperPartContainer.className = "bring-list-item-upper-part-container";
@@ -128,7 +130,13 @@ Module.register("MMM-Bring", {
         if (notification === "LIST_DATA") {
             this.list = payload;
             this.updateDom(1000);
+        } else  if (notification === "RELOAD_LIST") {
+            this.sendSocketNotification("GET_LIST", this.config);
         }
     },
+
+    itemClicked: function (item) {
+        this.sendSocketNotification("PURCHASED_ITEM", item);
+    }
 
 });

@@ -4,6 +4,11 @@
 
 A module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/) that displays your [Bring!](https://www.getbring.com) shopping list.
 
+## Features
+ * Touch Support
+ * Locale Support
+ * Auto-Layout
+
 ## Installing
 
 ### Step 1 - Install the module
