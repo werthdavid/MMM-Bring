@@ -4,11 +4,11 @@ const querystring = require("querystring");
 
 class BringClient {
 
-    constructor(opts) {
+    constructor(opts, modulePath) {
         this.userId = undefined;
         this.articles = undefined;
         this.defaultListId = "";
-        this.store = new Store({path: "bring.config.json", cwd: "store"});
+        this.store = new Store({path: modulePath + "/bring.config.json", cwd: "store"});
         this._init(opts);
     }
 
