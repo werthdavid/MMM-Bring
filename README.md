@@ -30,6 +30,7 @@ Add this configuration into `config.js` file's
        password: "SECRET",
        updateInterval: 15, // in Minutes
        listName: "Zuhause", // optional
+       showListName: true,
        activeItemColor: "#EE524F",
        latestItemColor: "#4FABA2",
        showLatestItems: false,
@@ -54,6 +55,7 @@ Here is the configurable part of the module
 | `password`           | *Required* password.
 | `updateInterval`     | How often the module should load the list.<br>**Type:** `number` in minutes<br> **Default value:** `15`
 | `listName`           | The name of the list to be displayed. <br>**Type:** `string` <br> **Default value:** your default list
+| `showListName`       | Flag for displaying list name. <br>**Type:** `string` <br> **Default value:** true
 | `activeItemColor`    | Color for active items. <br>**Type:** `string` <br> **Default value:** `#EE524F`
 | `latestItemColor`    | Color for recent items. <br>**Type:** `string` <br> **Default value:** `#4FABA2`
 | `showLatestItems`    | Flag for displaying recently bought items. <br>**Type:** `boolean` <br> **Default value:** `false`

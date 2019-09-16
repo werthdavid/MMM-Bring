@@ -5,6 +5,7 @@ Module.register("MMM-Bring", {
         password: "",
         updateInterval: 15,
         listName: undefined,
+        showListName: true,
         activeItemColor: "#EE524F",
         latestItemColor: "#4FABA2",
         showLatestItems: false,
@@ -29,7 +30,7 @@ Module.register("MMM-Bring", {
         const container = document.createElement("div");
         container.className = "bring-list-container bring-" + this.data.position;
 
-        if (this.list && this.list.name) {
+        if (this.config.showListName && this.list && this.list.name) {
             const title = document.createElement("h3");
             title.innerText = this.list.name;
             container.appendChild(title);

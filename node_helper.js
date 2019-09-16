@@ -11,7 +11,7 @@ module.exports = NodeHelper.create({
     socketNotificationReceived: function (notification, payload) {
         if (notification === "GET_LIST") {
             if (!this.client) {
-                this.client = new BringClient(payload);
+                this.client = new BringClient(payload, this.path);
                 // Wait for Login
                 setTimeout(() => {
                     this.client.getLists().then(lists => {
