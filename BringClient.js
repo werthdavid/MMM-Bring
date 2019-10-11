@@ -92,10 +92,14 @@ class BringClient {
                         for (let i = 0, len = list.purchase.length; i < len; i++) {
                             list.purchase[i].details = detailsMap[list.purchase[i].name];
                             list.purchase[i].imageSrc = this.getImageSrc(list.purchase[i]);
+                            // Translate it
+                            list.purchase[i].name = this.articles[list.purchase[i].name];
                         }
                         for (let i = 0, len = list.recently.length; i < len; i++) {
                             list.recently[i].details = detailsMap[list.recently[i].name];
                             list.recently[i].imageSrc = this.getImageSrc(list.recently[i]);
+                            // Translate it
+                            list.recently[i].name = this.articles[list.recently[i].name];
                         }
                         return list;
                     }
