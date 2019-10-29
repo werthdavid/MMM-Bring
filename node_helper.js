@@ -11,13 +11,7 @@ module.exports = NodeHelper.create({
     socketNotificationReceived: function (notification, payload) {
         if (notification === "GET_LIST") {
             if (!this.client) {
-                this.client = new BringClient(payload, this.path);
-                // Wait for Login
-                setTimeout(() => {
-                    this.client.getLists().then(lists => {
-                        this.getList(payload);
-                    });
-                }, 1500);
+                this.initClient(payload);
             } else {
                 this.getList(payload);
             }
@@ -38,9 +32,23 @@ module.exports = NodeHelper.create({
     },
 
     getList: function (payload) {
-        this.client.getList(true, payload.listName).then(list => {
-            this.list = list;
-            this.sendSocketNotification("LIST_DATA", list);
-        });
+        if (this.client.mustLogin()) {
+            this.initClient(payload);
+        } else {
+            this.client.getList(true, payload.listName).then(list => {
+                this.list = list;
+                this.sendSocketNotification("LIST_DATA", list);
+            });
+        }
+    },
+
+    initClient: function (payload) {
+        this.client = new BringClient(payload, this.path);
+        // Wait for Login
+        setTimeout(() => {
+            this.client.getLists().then(lists => {
+                this.getList(payload);
+            });
+        }, 1500);
     }
 });
