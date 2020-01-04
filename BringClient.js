@@ -143,9 +143,9 @@ class BringClient {
             .replace(/[.*+-?^${}()|/[\]\\]/g, "_")
             .replace(/&/g, "_")
             .replace(/\s/g, "_")
-            .replace(/ä/g, "ae")
-            .replace(/ö/g, "oe")
-            .replace(/ü/g, "ue")
+            .replace(/ä/ig, "ae")
+            .replace(/ö/ig, "oe")
+            .replace(/ü/ig, "ue")
             .replace(/__/g, "_")
             .replace(/__/g, "_")
             .toLowerCase() + ".png";
