@@ -40,12 +40,15 @@ class BringClient {
             email: email,
             password: password
         })).then(response => {
-            const loginObj = response.data;
-            this.store.set("user_id", loginObj["uuid"]);
-            this.store.set("default_list_id", loginObj["bringListUUID"]);
-            this.store.set("access_token", loginObj["access_token"]);
-            this.store.set("valid_until", new Date().getTime() + (loginObj["expires_in"] * 1000));
-        });
+                const loginObj = response.data;
+                this.store.set("user_id", loginObj["uuid"]);
+                this.store.set("default_list_id", loginObj["bringListUUID"]);
+                this.store.set("access_token", loginObj["access_token"]);
+                this.store.set("valid_until", new Date().getTime() + (loginObj["expires_in"] * 1000));
+            },
+            error => {
+                console.error("Error while Logging-in with Bring-Client in MMM-Bring:", "HTTP" + error.response.status, error.response.data);
+            });
     }
 
     getLists() {
