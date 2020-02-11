@@ -137,7 +137,18 @@ class BringClient {
             name = item.details.userIconItemId;
         }
         if (JSON.stringify(this.articles).toLowerCase().indexOf(name.toLowerCase()) === -1) {
-            name = item.name.substr(0, 1);
+            const articleKeys = Object.keys(this.articles).map(key => key.toLowerCase());
+            let foundAlternativeImage = false;
+            for (let i = 0, len = articleKeys.length; i < len; i++) {
+                if (item.name.toLowerCase().indexOf(articleKeys[i]) >= 0) {
+                    name = articleKeys[i];
+                    foundAlternativeImage = true;
+                    break;
+                }
+            }
+            if (!foundAlternativeImage) {
+                name = item.name.substr(0, 1);
+            }
         }
         return "https://web.getbring.com/assets/images/items/" + name
             .replace(/[.*+-?^${}()|/[\]\\]/g, "_")
