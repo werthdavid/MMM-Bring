@@ -46,9 +46,11 @@ module.exports = NodeHelper.create({
         this.client = new BringClient(payload, this.path);
         // Wait for Login
         setTimeout(() => {
-            this.client.getLists().then(lists => {
-                this.getList(payload);
-            });
+            if (!this.client.mustLogin()) {
+                this.client.getLists().then(lists => {
+                    this.getList(payload);
+                });
+            }
         }, 1500);
     }
 });

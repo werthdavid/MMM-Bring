@@ -94,6 +94,7 @@ h3 {
     overflow: hidden;
     text-overflow: ellipsis;
     padding-top: 1px;
+    line-height: .95em;
     font-family: MuseoSans-300, sans-serif;
 }
 

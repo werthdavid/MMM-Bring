@@ -40,12 +40,15 @@ class BringClient {
             email: email,
             password: password
         })).then(response => {
-            const loginObj = response.data;
-            this.store.set("user_id", loginObj["uuid"]);
-            this.store.set("default_list_id", loginObj["bringListUUID"]);
-            this.store.set("access_token", loginObj["access_token"]);
-            this.store.set("valid_until", new Date().getTime() + (loginObj["expires_in"] * 1000));
-        });
+                const loginObj = response.data;
+                this.store.set("user_id", loginObj["uuid"]);
+                this.store.set("default_list_id", loginObj["bringListUUID"]);
+                this.store.set("access_token", loginObj["access_token"]);
+                this.store.set("valid_until", new Date().getTime() + (loginObj["expires_in"] * 1000));
+            },
+            error => {
+                console.error("Error while Logging-in with Bring-Client in MMM-Bring:", "HTTP" + error.response.status, error.response.data);
+            });
     }
 
     getLists() {
@@ -137,7 +140,18 @@ class BringClient {
             name = item.details.userIconItemId;
         }
         if (JSON.stringify(this.articles).toLowerCase().indexOf(name.toLowerCase()) === -1) {
-            name = item.name.substr(0, 1);
+            const articleKeys = Object.keys(this.articles).map(key => key.toLowerCase());
+            let foundAlternativeImage = false;
+            for (let i = 0, len = articleKeys.length; i < len; i++) {
+                if (item.name.toLowerCase().indexOf(articleKeys[i]) >= 0) {
+                    name = articleKeys[i];
+                    foundAlternativeImage = true;
+                    break;
+                }
+            }
+            if (!foundAlternativeImage) {
+                name = item.name.substr(0, 1);
+            }
         }
         return "https://web.getbring.com/assets/images/items/" + name
             .replace(/[.*+-?^${}()|/[\]\\]/g, "_")
