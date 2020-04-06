@@ -37,6 +37,24 @@ h3 {
     font-style: normal;
     color: white;
     text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.bring-list-item-add {
+    display: flex;
+    flex-direction: column;
+    width: 98px;
+    height: 116px;
+    margin: 2px;
+    font-size: 70px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: grey;
+    justify-content: center;
 }
 
 .bring-list-item-upper-part-container {

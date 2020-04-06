@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 Module.register("MMM-Bring", {
 
     defaults: {
@@ -11,7 +12,8 @@ Module.register("MMM-Bring", {
         showLatestItems: false,
         maxItems: 0,
         maxLatestItems: 0,
-        locale: "de-DE"
+        locale: "de-DE",
+        touch: true
     },
 
     getStyles: function () {
@@ -78,6 +80,17 @@ Module.register("MMM-Bring", {
 
                 bringList.appendChild(bringListItem);
             }
+
+            if (this.config.touch) {
+                //include add button
+                const bringListAdd = document.createElement("div");
+                bringListAdd.className = "bring-list-item-add";
+                var self = this;
+                bringListAdd.onclick = function() { self.openKeyboard(); };
+                bringListAdd.innerHTML = "+";
+                bringList.appendChild(bringListAdd);
+            }
+
             container.appendChild(bringList);
         }
         if (this.config.showLatestItems && this.list && this.list.recently) {
@@ -127,6 +140,11 @@ Module.register("MMM-Bring", {
         return container;
     },
 
+    openKeyboard: function() {
+        console.log("MMM-Bring opening keyboard");
+        this.sendNotification("KEYBOARD", { key: "bring", style: "default"});
+    },
+
     socketNotificationReceived: function (notification, payload) {
         if (notification === "LIST_DATA") {
             this.list = payload;
@@ -135,8 +153,21 @@ Module.register("MMM-Bring", {
             this.sendSocketNotification("GET_LIST", this.config);
         }
     },
+    
+    notificationReceived: function(notification, payload) {
+        if (notification === "KEYBOARD_INPUT" && payload.key === "bring" && payload.message != '') {
+            var item = {
+                name: payload.message[0].toUpperCase() + payload.message.substring(1), 
+                purchase: false, 
+                listId: this.list.uuid
+            };
+            console.log("MMM-Bring received Keyboard input: " + item.name);
+            this.sendSocketNotification("PURCHASED_ITEM", item);
+        }
+    },
 
     itemClicked: function (item) {
+        console.log("Item clicked: " + item.name);
         this.sendSocketNotification("PURCHASED_ITEM", item);
     }
 
