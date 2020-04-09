@@ -3,6 +3,7 @@ const BringClient = require("./BringClient");
 
 let list;
 let client;
+let config;
 
 module.exports = NodeHelper.create({
     start: function () {
@@ -14,16 +15,19 @@ module.exports = NodeHelper.create({
                 this.initClient(payload);
             } else {
                 this.getList(payload);
+                this.config = payload;
             }
             return true;
         } else if (notification === "PURCHASED_ITEM") {
             if (payload.purchase) {
                 this.client.recently(payload.name, payload.listId).then(() => {
-                    this.sendSocketNotification("RELOAD_LIST");
+                    //this.sendSocketNotification("RELOAD_LIST");
+                    this.getList(this.config);
                 });
             } else {
                 this.client.purchase(payload.name, payload.listId).then(() => {
-                    this.sendSocketNotification("RELOAD_LIST");
+                    //this.sendSocketNotification("RELOAD_LIST");
+                    this.getList(this.config);
                 });
             }
 

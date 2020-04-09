@@ -31,9 +31,13 @@ Module.register("MMM-Bring", {
         container.className = "bring-list-container bring-" + this.data.position;
 
         if (this.config.showListName && this.list && this.list.name) {
+            const titleDiv = document.createElement("div");
             const title = document.createElement("h3");
             title.innerText = this.list.name;
-            container.appendChild(title);
+            const drop = this.createDropDown();
+            titleDiv.appendChild(title);
+            titleDiv.appendChild(drop);
+            container.appendChild(titleDiv);
         }
 
         // Purchase
@@ -126,12 +130,23 @@ Module.register("MMM-Bring", {
         }
         return container;
     },
+    
+    createDropDown: function() {
+        const drop = document.createElement("div");
+        const dropBtn = document.createElement("button");
+        const dropList = document.createElement("div");
+        
+        
+        drop.appendChild(dropBtn);
+        drop.appendChild(dropList);
+        return drop;
+    },
 
     socketNotificationReceived: function (notification, payload) {
         if (notification === "LIST_DATA") {
             this.list = payload;
             this.updateDom(1000);
-        } else  if (notification === "RELOAD_LIST") {
+        } else if (notification === "RELOAD_LIST") {
             this.sendSocketNotification("GET_LIST", this.config);
         }
     },
