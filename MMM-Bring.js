@@ -167,7 +167,6 @@ Module.register("MMM-Bring", {
     },
 
     itemClicked: function (item) {
-        console.log("Item clicked: " + item.name);
         this.sendSocketNotification("PURCHASED_ITEM", item);
     }
 
