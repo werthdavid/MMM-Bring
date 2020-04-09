@@ -13,7 +13,7 @@ Module.register("MMM-Bring", {
         maxItems: 0,
         maxLatestItems: 0,
         locale: "de-DE",
-        touch: true
+        useKeyboard: false
     },
 
     getStyles: function () {
@@ -81,7 +81,7 @@ Module.register("MMM-Bring", {
                 bringList.appendChild(bringListItem);
             }
 
-            if (this.config.touch) {
+            if (this.config.useKeyboard) {
                 //include add button
                 const bringListAdd = document.createElement("div");
                 bringListAdd.className = "bring-list-item-add";
