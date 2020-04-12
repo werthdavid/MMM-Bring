@@ -102,3 +102,50 @@ h3 {
 .bring-top_right, .bring-top_left, .bring-top_center, .bring-bottom_left, .bring-bottom_center, .bring-bottom_right {
     max-width: 33vw;
 }
+
+/*
+*  Dropdown
+*/
+
+.bring-dropBtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.bring-dropBtn:hover, .bring-dropBtn:focus {
+  background-color: #2980B9;
+}
+
+#bring-dropList {
+  position: relative;
+  display: inline-block;
+}
+
+#bring-dropItems {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+}
+
+.bring-dropItem {
+  color: black;
+  padding: 8px 10px;
+  text-decoration: none;
+  display: block;
+  overflow: auto;
+  box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.bring-dropdown div:hover {
+    background-color: #ddd;
+}
+
+.MMM-Bring #bring-dropList .show {
+    display: block;
+}
