@@ -23,9 +23,63 @@
     flex-wrap: wrap;
 }
 
-h3 {
-    margin: 10px 0;
+/*
+*  DROPDOWN TITLE
+*/
+
+.bring-titleBtn {
+    background: none;
+    margin: 10px 5px;
+    padding: 5px 20px;
+    border: 2px solid #eee;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
 }
+
+.bring-titleBtn:hover {
+    background-color: #2980B9;
+}
+
+#bring-dropList {
+    position: relative;
+    display: inline-block;
+}
+
+#bring-dropList .show {
+    display: block;
+}
+
+#bring-dropItems {
+    display: none;
+    position: absolute;
+    padding: 0px 12px;
+    min-width: 160px;
+    top: 20px;
+    left: -100px;
+    background-color: #000;
+}
+
+
+.bring-dropItem {
+    color: white;
+    padding: 5px 5px;
+    display: block;
+    overflow: auto;
+    position: relative;
+    z-index: 2;
+    border-bottom: 2px solid white;
+    font-size: 0.7em;
+}
+
+.bring-dropItem:hover {
+    background-color: #2980B9;
+}
+
+
+/*
+* LISTS
+*/
 
 .bring-list-item-content {
     display: flex;
@@ -101,51 +155,4 @@ h3 {
 
 .bring-top_right, .bring-top_left, .bring-top_center, .bring-bottom_left, .bring-bottom_center, .bring-bottom_right {
     max-width: 33vw;
-}
-
-/*
-*  Dropdown
-*/
-
-.bring-dropBtn {
-  background-color: #3498DB;
-  color: white;
-  padding: 16px;
-  font-size: 20px;
-  border: none;
-  cursor: pointer;
-}
-
-.bring-dropBtn:hover, .bring-dropBtn:focus {
-  background-color: #2980B9;
-}
-
-#bring-dropList {
-  position: relative;
-  display: inline-block;
-}
-
-#bring-dropItems {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-}
-
-.bring-dropItem {
-  color: black;
-  padding: 8px 10px;
-  text-decoration: none;
-  display: block;
-  overflow: auto;
-  box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
-  z-index: 2;
-}
-
-.bring-dropdown div:hover {
-    background-color: #ddd;
-}
-
-.MMM-Bring #bring-dropList .show {
-    display: block;
 }

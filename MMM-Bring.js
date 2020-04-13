@@ -20,7 +20,6 @@ Module.register("MMM-Bring", {
     },
 
     start: function () {
-        this.currentList = this.config.defaultListName;
         this.sendSocketNotification("GET_LIST", this.config);
         setInterval(() => {
             this.sendSocketNotification("GET_LIST", this.config);
@@ -28,18 +27,46 @@ Module.register("MMM-Bring", {
         this.lists = ["Liste1", "Liste2"];
     },
 
+    createDropDown: function() {
+        const drop = document.createElement("div");
+        drop.className = "bring-dropdown-title";
+        const titleBtn = document.createElement("input");
+        titleBtn.setAttribute("type", "button");
+        titleBtn.className = "bring-titleBtn bright";
+        titleBtn.value = this.config.listName +  " \u2BC6";
+        titleBtn.addEventListener("click", function () {
+            document.getElementById("bring-dropItems").classList.toggle("show");
+        });
+        const dropList = document.createElement("div");
+        dropList.id = "bring-dropList";
+        const dropItems = document.createElement("div");
+        dropItems.id = "bring-dropItems";
+        var self = this;
+        for (var i = 0; i < this.lists.length; i++) {
+            var dropItem = document.createElement("div");
+            dropItem.className = "bring-dropItem";
+            dropItem.innerHTML = this.lists[i].name;
+            dropItem.addEventListener("click", function() {
+                self.config.listName = this.innerHTML;
+                self.sendSocketNotification("GET_LIST", self.config);
+            });
+            dropItems.appendChild(dropItem);
+        }
+        dropList.appendChild(dropItems);
+        drop.appendChild(titleBtn);
+        drop.appendChild(dropList);
+        return drop;
+    },
+
     getDom: function () {
         const container = document.createElement("div");
         container.className = "bring-list-container bring-" + this.data.position;
 
         if (this.config.showListName && this.currentList && this.currentList.name) {
-            const titleDiv = document.createElement("div");
-            const title = document.createElement("h3");
-            title.innerText = this.currentList.name;
 
-            const drop = this.createDropDown();
+            const dropTitle = this.createDropDown();
             document.addEventListener("click", event => {
-                if (!event.target.matches('.bring-dropBtn')) {
+                if (!event.target.matches('.bring-titleBtn')) {
                     var dropDown = document.getElementById("bring-dropItems");
                     if (dropDown.classList.contains('show')) {
                         dropDown.classList.remove('show');
@@ -54,9 +81,7 @@ Module.register("MMM-Bring", {
                     }*/
                 }
             });
-            titleDiv.appendChild(title);
-            titleDiv.appendChild(drop);
-            container.appendChild(titleDiv);
+            container.appendChild(dropTitle);
         }
 
         // Purchase
@@ -150,41 +175,13 @@ Module.register("MMM-Bring", {
         return container;
     },
 
-    createDropDown: function() {
-        const drop = document.createElement("div");
-        drop.className = "bring-dropdown";
-        const dropBtn = document.createElement("input");
-        dropBtn.setAttribute("type", "button");
-        dropBtn.className = "bring-dropBtn";
-        dropBtn.value = "Change List";
-        dropBtn.addEventListener("click", function () {
-            document.getElementById("bring-dropItems").classList.toggle("show");
-        });
-        const dropList = document.createElement("div");
-        dropList.id = "bring-dropList";
-        const dropItems = document.createElement("div");
-        dropItems.id = "bring-dropItems";
-        var self = this;
-        for (var i = 0; i < this.lists.length; i++) {
-            var dropItem = document.createElement("div");
-            dropItem.className = "bring-dropItem";
-            dropItem.innerHTML = this.lists[i].name;
-            dropItem.addEventListener("click", function() {
-                self.config.listName = this.innerHTML;
-                self.sendSocketNotification("GET_LIST", self.config);
-            });
-            dropItems.appendChild(dropItem);
-        }
-        dropList.appendChild(dropItems);
-        drop.appendChild(dropBtn);
-        drop.appendChild(dropList);
-        return drop;
-    },
-
     socketNotificationReceived: function (notification, payload) {
         if (notification === "LIST_DATA") {
             this.currentList = payload.currentList;
             this.lists = payload.lists;
+            if (!this.config.listName) {
+                this.config.listName = this.currentList.name;
+            }
             //console.log(JSON.stringify(this.lists));
             this.updateDom(1000);
         } else if (notification === "RELOAD_LIST") {
