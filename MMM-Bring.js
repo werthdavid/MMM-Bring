@@ -142,7 +142,7 @@ Module.register("MMM-Bring", {
 
     openKeyboard: function() {
         console.log("MMM-Bring opening keyboard");
-        this.sendNotification("KEYBOARD", { key: "bring", style: "default"});
+        this.sendNotification("KEYBOARD", { key: "mmm-bring", style: "default"});
     },
 
     socketNotificationReceived: function (notification, payload) {
