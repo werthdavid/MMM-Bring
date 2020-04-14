@@ -71,14 +71,6 @@ Module.register("MMM-Bring", {
                     if (dropDown.classList.contains('show')) {
                         dropDown.classList.remove('show');
                     }
-                    /*var dropdowns = document.getElementsByClassName("dropdown-content");
-                    var i;
-                    for (i = 0; i < dropdowns.length; i++) {
-                        var openDropdown = dropdowns[i];
-                        if (openDropdown.classList.contains('show')) {
-                            openDropdown.classList.remove('show');
-                        }
-                    }*/
                 }
             });
             container.appendChild(dropTitle);
@@ -182,7 +174,6 @@ Module.register("MMM-Bring", {
             if (!this.config.listName) {
                 this.config.listName = this.currentList.name;
             }
-            //console.log(JSON.stringify(this.lists));
             this.updateDom(1000);
         } else if (notification === "RELOAD_LIST") {
             this.sendSocketNotification("GET_LIST", this.config);
