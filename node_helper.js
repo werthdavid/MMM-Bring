@@ -1,8 +1,10 @@
 const NodeHelper = require("node_helper");
 const BringClient = require("./BringClient");
 
-let list;
+let lists;
+let currentList;
 let client;
+let config;
 
 module.exports = NodeHelper.create({
     start: function () {
@@ -14,6 +16,7 @@ module.exports = NodeHelper.create({
                 this.initClient(payload);
             } else {
                 this.getList(payload);
+                this.config = payload;
             }
             return true;
         } else if (notification === "PURCHASED_ITEM") {
@@ -33,11 +36,11 @@ module.exports = NodeHelper.create({
 
     getList: function (payload) {
         if (this.client.mustLogin()) {
-            this.initClient(payload);
+            this.initClient(payload.config);
         } else {
             this.client.getList(true, payload.listName).then(list => {
-                this.list = list;
-                this.sendSocketNotification("LIST_DATA", list);
+                this.currentList = list;
+                this.sendSocketNotification("LIST_DATA", {lists: this.lists, currentList: list});
             });
         }
     },
@@ -48,6 +51,7 @@ module.exports = NodeHelper.create({
         setTimeout(() => {
             if (!this.client.mustLogin()) {
                 this.client.getLists().then(lists => {
+                    this.lists = lists;
                     this.getList(payload);
                 });
             }

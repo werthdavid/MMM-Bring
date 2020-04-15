@@ -23,16 +23,71 @@
     flex-wrap: wrap;
 }
 
-h3 {
-    margin: 10px 0;
+/*
+*  DROPDOWN TITLE
+*/
+
+.bring-titleBtn {
+    background: none;
+    margin: 10px 5px;
+    padding: 5px 20px;
+    border: 2px solid #eee;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
 }
+
+.bring-titleBtn:hover {
+    background-color: #2980B9;
+}
+
+#bring-dropList {
+    position: relative;
+    display: inline-block;
+}
+
+#bring-dropList .show {
+    display: block;
+}
+
+#bring-dropItems {
+    display: none;
+    position: absolute;
+    padding: 0px 12px;
+    min-width: 160px;
+    top: 20px;
+    left: -100px;
+    background-color: #000;
+}
+
+
+.bring-dropItem {
+    color: white;
+    padding: 5px 5px;
+    display: block;
+    overflow: auto;
+    position: relative;
+    z-index: 2;
+    border-bottom: 2px solid white;
+    font-size: 0.7em;
+}
+
+.bring-dropItem:hover {
+    background-color: #2980B9;
+}
+
+
+/*
+* LISTS
+*/
 
 .bring-list-item-content {
     display: flex;
     flex-direction: column;
     width: 98px;
     height: 116px;
-    margin: 2px;
+    margin: 4px;
+    border-radius: 6px;
     font-size: 14px;
     font-style: normal;
     color: white;
@@ -44,7 +99,7 @@ h3 {
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    height: 60px;
+    height: 70px;
     align-items: center;
 }
 
