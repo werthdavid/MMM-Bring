@@ -36,7 +36,8 @@ Add this configuration into `config.js` file's
        showLatestItems: false,
        maxItems: 0,
        maxLatestItems: 0,
-       locale: "de-DE"
+       locale: "de-DE",
+       useKeyboard: false
     }
 }
 ```
@@ -62,6 +63,7 @@ Here is the configurable part of the module
 | `maxItems`           | Maximum items to display. <br>**Type:** `number` <br> **Default value:** `0` (all)
 | `maxLatestItems`     | Maximum recent items to display. <br>**Type:** `number` <br> **Default value:** `0` (all)
 | `locale`             | The locale. <br>**Type:** `string` <br> **Default value:** `de-DE`
+| `useKeyboard`        | Activate to use this module together with MMM-Keyboard <br>**Type:** `boolean` <br> **Default value:** `false`
 
 
 ### Valid locales
