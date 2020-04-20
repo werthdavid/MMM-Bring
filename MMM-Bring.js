@@ -159,7 +159,7 @@ Module.register("MMM-Bring", {
             var item = {
                 name: payload.message[0].toUpperCase() + payload.message.substring(1), 
                 purchase: false, 
-                listId: this.list.uuid
+                listId: this.currentList.uuid
             };
             console.log("MMM-Bring received Keyboard input: " + item.name);
             this.sendSocketNotification("PURCHASED_ITEM", item);
