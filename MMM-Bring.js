@@ -155,7 +155,7 @@ Module.register("MMM-Bring", {
     },
     
     notificationReceived: function(notification, payload) {
-        if (notification === "KEYBOARD_INPUT" && payload.key === "bring" && payload.message != '') {
+        if (notification === "KEYBOARD_INPUT" && payload.key === "mmm-bring" && payload.message != '') {
             var item = {
                 name: payload.message[0].toUpperCase() + payload.message.substring(1), 
                 purchase: false, 
