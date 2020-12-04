@@ -82,7 +82,7 @@ Module.register("MMM-Bring", {
             const bringList = document.createElement("div");
             bringList.className = "bring-list";
             let max = this.currentList.purchase.length;
-            if (this.config.maxItems !== 0) {
+            if (this.config.maxItems !== 0 && max > this.config.maxItems) {
                 max = this.config.maxItems;
             }
             for (let i = 0, len = max; i < len; i++) {
@@ -196,12 +196,12 @@ Module.register("MMM-Bring", {
             this.sendSocketNotification("GET_LIST", this.config);
         }
     },
-    
+
     notificationReceived: function(notification, payload) {
         if (notification === "KEYBOARD_INPUT" && payload.key === "mmm-bring" && payload.message != '') {
             var item = {
-                name: payload.message[0].toUpperCase() + payload.message.substring(1), 
-                purchase: false, 
+                name: payload.message[0].toUpperCase() + payload.message.substring(1),
+                purchase: false,
                 listId: this.currentList.uuid
             };
             console.log("MMM-Bring received Keyboard input: " + item.name);
