@@ -137,7 +137,7 @@ Module.register("MMM-Bring", {
             bringListRecent.className = "bring-list";
 
             let max = this.currentList.recently.length;
-            if (this.config.maxLatestItems !== 0) {
+            if (this.config.maxLatestItems !== 0  && max > this.config.maxLatestItems) {
                 max = this.config.maxLatestItems;
             }
             for (let i = 0, len = max; i < len; i++) {
