@@ -28,13 +28,13 @@ Module.register("MMM-Bring", {
         this.lists = ["Liste1", "Liste2"];
     },
 
-    createDropDown: function() {
+    createDropDown: function () {
         const drop = document.createElement("div");
         drop.className = "bring-dropdown-title";
         const titleBtn = document.createElement("input");
         titleBtn.setAttribute("type", "button");
         titleBtn.className = "bring-titleBtn bright";
-        titleBtn.value = this.config.listName +  " \u2BC6";
+        titleBtn.value = this.config.listName + " \u2BC6";
         titleBtn.addEventListener("click", function () {
             document.getElementById("bring-dropItems").classList.toggle("show");
         });
@@ -47,7 +47,7 @@ Module.register("MMM-Bring", {
             var dropItem = document.createElement("div");
             dropItem.className = "bring-dropItem";
             dropItem.innerHTML = this.lists[i].name;
-            dropItem.addEventListener("click", function() {
+            dropItem.addEventListener("click", function () {
                 self.config.listName = this.innerHTML;
                 self.sendSocketNotification("GET_LIST", self.config);
             });
@@ -60,6 +60,11 @@ Module.register("MMM-Bring", {
     },
 
     getDom: function () {
+        if ((!this.currentList.purchase.length || this.currentList.purchase.length === 0) &&
+            (!this.currentList.recently.length || this.currentList.recently.length === 0)) {
+            return document.createElement("span");
+        }
+
         const container = document.createElement("div");
         container.className = "bring-list-container bring-" + this.data.position;
 
@@ -125,7 +130,9 @@ Module.register("MMM-Bring", {
                 const bringListAdd = document.createElement("div");
                 bringListAdd.className = "bring-list-item-add";
                 var self = this;
-                bringListAdd.onclick = function() { self.openKeyboard(); };
+                bringListAdd.onclick = function () {
+                    self.openKeyboard();
+                };
                 bringListAdd.innerHTML = "+";
                 bringList.appendChild(bringListAdd);
             }
@@ -137,7 +144,7 @@ Module.register("MMM-Bring", {
             bringListRecent.className = "bring-list";
 
             let max = this.currentList.recently.length;
-            if (this.config.maxLatestItems !== 0  && max > this.config.maxLatestItems) {
+            if (this.config.maxLatestItems !== 0 && max > this.config.maxLatestItems) {
                 max = this.config.maxLatestItems;
             }
             for (let i = 0, len = max; i < len; i++) {
@@ -179,9 +186,9 @@ Module.register("MMM-Bring", {
         return container;
     },
 
-    openKeyboard: function() {
+    openKeyboard: function () {
         console.log("MMM-Bring opening keyboard");
-        this.sendNotification("KEYBOARD", { key: "mmm-bring", style: "default"});
+        this.sendNotification("KEYBOARD", {key: "mmm-bring", style: "default"});
     },
 
     socketNotificationReceived: function (notification, payload) {
@@ -197,7 +204,7 @@ Module.register("MMM-Bring", {
         }
     },
 
-    notificationReceived: function(notification, payload) {
+    notificationReceived: function (notification, payload) {
         if (notification === "KEYBOARD_INPUT" && payload.key === "mmm-bring" && payload.message != '') {
             var item = {
                 name: payload.message[0].toUpperCase() + payload.message.substring(1),
