@@ -75,7 +75,7 @@ Module.register("MMM-Bring", {
         if (!!this.config.customTitle) {
             const headerElem = document.createElement("header");
             headerElem.className = "module-header";
-            headerElem.innerText = this.config.customTitle;
+            headerElem.innerText = this.config.customTitle + " (" + (this.currentList.purchase || []).length + ")";
             container.appendChild(headerElem);
         }
 
@@ -93,7 +93,7 @@ Module.register("MMM-Bring", {
                 container.appendChild(dropTitle);
             } else {
                 const title = document.createElement("h3");
-                title.innerText = this.config.customTitle + " (" + (this.currentList.purchase || []).length + ")";
+                title.innerText = this.config.listName;
                 container.appendChild(title);
             }
         }
