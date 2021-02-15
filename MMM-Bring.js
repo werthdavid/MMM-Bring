@@ -13,7 +13,9 @@ Module.register("MMM-Bring", {
         maxItems: 0,
         maxLatestItems: 0,
         locale: "de-DE",
-        useKeyboard: false
+        useKeyboard: false,
+        customTitle: undefined,
+        listDropdown: true
     },
 
     getStyles: function () {
@@ -63,25 +65,37 @@ Module.register("MMM-Bring", {
         // if the user doesn't want to show the recently bought items and has no items in the list --> hide list
         if (!this.currentList ||
             ((!this.currentList.purchase || !this.currentList.purchase.length || this.currentList.purchase.length === 0) &&
-            !this.config.showLatestItems)) {
+                !this.config.showLatestItems)) {
             return document.createElement("span");
         }
 
         const container = document.createElement("div");
         container.className = "bring-list-container bring-" + this.data.position;
 
-        if (this.config.showListName && this.currentList && this.currentList.name) {
+        if (!!this.config.customTitle) {
+            const headerElem = document.createElement("header");
+            headerElem.className = "module-header";
+            headerElem.innerText = this.config.customTitle;
+            container.appendChild(headerElem);
+        }
 
-            const dropTitle = this.createDropDown();
-            document.addEventListener("click", event => {
-                if (!event.target.matches('.bring-titleBtn')) {
-                    var dropDown = document.getElementById("bring-dropItems");
-                    if (dropDown.classList.contains('show')) {
-                        dropDown.classList.remove('show');
+        if (this.config.showListName && this.currentList && this.currentList.name) {
+            if (this.config.listDropdown && (!!this.lists && this.lists.length > 1)) {
+                const dropTitle = this.createDropDown();
+                document.addEventListener("click", event => {
+                    if (!event.target.matches('.bring-titleBtn')) {
+                        var dropDown = document.getElementById("bring-dropItems");
+                        if (dropDown.classList.contains('show')) {
+                            dropDown.classList.remove('show');
+                        }
                     }
-                }
-            });
-            container.appendChild(dropTitle);
+                });
+                container.appendChild(dropTitle);
+            } else {
+                const title = document.createElement("h3");
+                title.innerText = this.currentList.name;
+                container.appendChild(title);
+            }
         }
 
         // Purchase
@@ -96,7 +110,11 @@ Module.register("MMM-Bring", {
                 const bringListItem = document.createElement("div");
                 bringListItem.className = "bring-list-item-content";
                 bringListItem.style = "background-color: " + this.config.activeItemColor;
-                bringListItem.onclick = () => this.itemClicked({name: this.currentList.purchase[i].name, purchase: true, listId: this.currentList.uuid});
+                bringListItem.onclick = () => this.itemClicked({
+                    name: this.currentList.purchase[i].name,
+                    purchase: true,
+                    listId: this.currentList.uuid
+                });
 
                 const upperPartContainer = document.createElement("div");
                 upperPartContainer.className = "bring-list-item-upper-part-container";
@@ -153,7 +171,11 @@ Module.register("MMM-Bring", {
                 const bringListItem = document.createElement("div");
                 bringListItem.className = "bring-list-item-content";
                 bringListItem.style = "background-color: " + this.config.latestItemColor;
-                bringListItem.onclick = () => this.itemClicked({name: this.currentList.recently[i].name, purchase: false, listId: this.currentList.uuid});
+                bringListItem.onclick = () => this.itemClicked({
+                    name: this.currentList.recently[i].name,
+                    purchase: false,
+                    listId: this.currentList.uuid
+                });
 
                 const upperPartContainer = document.createElement("div");
                 upperPartContainer.className = "bring-list-item-upper-part-container";

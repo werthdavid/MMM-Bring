@@ -21,7 +21,7 @@ npm install
 
 ### Step 2 - Add module to `~MagicMirror/config/config.js`
 Add this configuration into `config.js` file's
-```javascript
+```json
 {
     module: "MMM-Bring",
     position: "bottom_bar",
@@ -37,7 +37,9 @@ Add this configuration into `config.js` file's
        maxItems: 0,
        maxLatestItems: 0,
        locale: "de-DE",
-       useKeyboard: false
+       useKeyboard: false,
+       customHeader: "My shopping list" // optional
+       listDropdown: true
     }
 }
 ```
@@ -64,7 +66,8 @@ Here is the configurable part of the module
 | `maxLatestItems`     | Maximum recent items to display. <br>**Type:** `number` <br> **Default value:** `0` (all)
 | `locale`             | The locale. <br>**Type:** `string` <br> **Default value:** `de-DE`
 | `useKeyboard`        | Activate to use this module together with MMM-Keyboard <br>**Type:** `boolean` <br> **Default value:** `false`
-
+| `customHeader`       | Show the given text as generic module title <br>**Type:** `string` <br> **Default value:** `undefined` (empty)
+| `listDropdown`       | If you have more than 1 list, show a dropdown where the list can be selected <br>**Type:** `boolean` <br> **Default value:** `true`
 
 ### Valid locales
 
