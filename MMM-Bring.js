@@ -93,7 +93,7 @@ Module.register("MMM-Bring", {
                 container.appendChild(dropTitle);
             } else {
                 const title = document.createElement("h3");
-                title.innerText = this.currentList.name;
+                title.innerText = this.config.customTitle + " (" + (this.currentList.purchase || []).length + ")";
                 container.appendChild(title);
             }
         }
