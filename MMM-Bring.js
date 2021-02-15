@@ -225,6 +225,10 @@ Module.register("MMM-Bring", {
             this.updateDom(1000);
         } else if (notification === "RELOAD_LIST") {
             this.sendSocketNotification("GET_LIST", this.config);
+        } else if (notification === "HIDE_SHIPPING") {
+            this.hide(1000, {lockString: "LOCKEDBYMODULE"});
+        } else if (notification === "SHOW_SHIPPING") {
+            this.show(1000, {lockString: "LOCKEDBYMODULE"});
         }
     },
 
