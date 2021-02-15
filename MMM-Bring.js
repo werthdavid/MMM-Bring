@@ -60,8 +60,10 @@ Module.register("MMM-Bring", {
     },
 
     getDom: function () {
-        if ((!this.currentList.purchase.length || this.currentList.purchase.length === 0) &&
-            (!this.currentList.recently.length || this.currentList.recently.length === 0)) {
+        // if the user doesn't want to show the recently bought items and has no items in the list --> hide list
+        if (!this.currentList ||
+            ((!this.currentList.purchase || !this.currentList.purchase.length || this.currentList.purchase.length === 0) &&
+            !this.config.showLatestItems)) {
             return document.createElement("span");
         }
 
