@@ -21,7 +21,7 @@ npm install
 
 ### Step 2 - Add module to `~MagicMirror/config/config.js`
 Add this configuration into `config.js` file's
-```json
+```json5
 {
     module: "MMM-Bring",
     position: "bottom_bar",
