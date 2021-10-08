@@ -45,8 +45,7 @@ class BringClient {
                 this.store.set("default_list_id", loginObj["bringListUUID"]);
                 this.store.set("access_token", loginObj["access_token"]);
                 this.store.set("valid_until", new Date().getTime() + (loginObj["expires_in"] * 1000));
-            },
-            error => {
+            }).catch(error => {
                 console.error("Error while Logging-in with Bring-Client in MMM-Bring:", "HTTP" + error.response.status, error.response.data);
             });
     }
@@ -60,7 +59,7 @@ class BringClient {
                 }
                 return response.data.lists;
             }
-        );
+        ).catch(error => console.error(error));
     }
 
     getList(withDetails, listName) {
@@ -96,7 +95,7 @@ class BringClient {
                             list.purchase[i].details = detailsMap[list.purchase[i].name];
                             list.purchase[i].imageSrc = this.getImageSrc(list.purchase[i]);
                             // Translate it
-                            if (this.articles[list.purchase[i].name] != null) {
+                            if (this.articles && this.articles[list.purchase[i].name] != null) {
                                 list.purchase[i].name = this.articles[list.purchase[i].name];
                             }
                         }
@@ -104,7 +103,7 @@ class BringClient {
                             list.recently[i].details = detailsMap[list.recently[i].name];
                             list.recently[i].imageSrc = this.getImageSrc(list.recently[i]);
                             // Translate it
-                            if (this.articles[list.recently[i].name] != null) {
+                            if (this.articles && this.articles[list.recently[i].name] != null) {
                                 list.recently[i].name = this.articles[list.recently[i].name];
                             }
                         }
@@ -114,14 +113,13 @@ class BringClient {
             } else {
                 return list;
             }
-        });
+        }).catch(error => console.error(error));
     }
 
     getListDetails(listId) {
         return axios.get("https://api.getbring.com/rest/v2/bringlists/" + listId + "/details").then(response => {
                 return response.data;
-            }
-        );
+        }).catch(error => console.error(error));
     }
 
     getArticles(locale) {
@@ -130,8 +128,7 @@ class BringClient {
         }
         return axios.get("https://web.getbring.com/locale/articles." + locale + ".json").then(response => {
                 return response.data;
-            }
-        );
+        }).catch(error => console.error(error));
     }
 
     getImageSrc(item) {
@@ -139,7 +136,7 @@ class BringClient {
         if (item.details && item.details.userIconItemId) {
             name = item.details.userIconItemId;
         }
-        if (JSON.stringify(this.articles).toLowerCase().indexOf(name.toLowerCase()) === -1) {
+        if (this.articles && JSON.stringify(this.articles).toLowerCase().indexOf(name.toLowerCase()) === -1) {
             const articleKeys = Object.keys(this.articles).map(key => key.toLowerCase());
             let foundAlternativeImage = false;
             for (let i = 0, len = articleKeys.length; i < len; i++) {
@@ -174,7 +171,7 @@ class BringClient {
         return axios.put("https://api.getbring.com/rest/v2/bringlists/" + listId, querystring.stringify({
             uuid: listId,
             purchase: itemName
-        }), config);
+        }), config).catch(error => console.error(error));
     }
 
     recently(itemName, listId) {
@@ -186,7 +183,7 @@ class BringClient {
         return axios.put("https://api.getbring.com/rest/v2/bringlists/" + listId, querystring.stringify({
             uuid: listId,
             recently: itemName
-        }), config);
+        }), config).catch(error => console.error(error));
     }
 }
 
