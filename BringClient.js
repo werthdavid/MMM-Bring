@@ -1,10 +1,20 @@
-const axios = require("axios");
+const axios = require("axios").default;
 const Store = require("data-store");
 const querystring = require("querystring");
 const https = require("https");
 
 class BringClient {
+    /**
+     * This is an Axios client instance that is intended for making authenticated requests to
+     * the 'api.getbring.com' domain using normal TLS rules.
+     */
     #authenticatedClient;
+    /**
+     * This is an Axios client instance that won't fail a request if there's issues with the SSL certificate.
+     * This is necessary for requests to the 'web.getbring.com' domain as long as their certificate chain
+     * still includes a broken "Sectigo" certificate.
+     */
+    #insecureClient;
     constructor(opts, modulePath) {
         this.userId = undefined;
         this.articles = undefined;
@@ -19,7 +29,8 @@ class BringClient {
             this.locale = opts.locale;
         }
 
-        this.#authenticatedClient = axios.create({
+        this.#insecureClient = axios.create({
+            baseURL: "https://web.getbring.com/",
             headers: {
                 "x-bring-api-key": "cof4Nc6D8saplXjE3h3HXqHH8m7VU2i1Gs0g85Sp"
             },
@@ -27,6 +38,13 @@ class BringClient {
                 // This setting disables SSL certificate errors and reduces security
                 rejectUnauthorized: false
             })
+        });
+
+        this.#authenticatedClient = axios.create({
+            baseURL: "https://api.getbring.com/rest/v2/",
+            headers: {
+                "x-bring-api-key": "cof4Nc6D8saplXjE3h3HXqHH8m7VU2i1Gs0g85Sp"
+            },
         });
 
         if (this.mustLogin()) {
@@ -49,7 +67,7 @@ class BringClient {
     login(email, password) {
         return this.#authenticatedClient
         .post(
-            "https://api.getbring.com/rest/v2/bringauth",
+            "/bringauth",
             querystring.stringify({
             email: email,
             password: password
@@ -69,7 +87,7 @@ class BringClient {
     getLists() {
         return this.#authenticatedClient
         .get(
-            "https://api.getbring.com/rest/v2/bringusers/" + this.userId + "/lists"
+            "/bringusers/" + this.userId + "/lists"
         )
         .then((response) => {
                 // Remember the names of the Lists
@@ -88,7 +106,7 @@ class BringClient {
             listId = this.store.get("list_id_" + listName);
         }
         return this.#authenticatedClient
-        .get("https://api.getbring.com/rest/v2/bringlists/" + listId)
+        .get("/bringlists/" + listId)
         .then((response) => {
                 const list = response.data;
                 if (list && list.uuid) {
@@ -145,7 +163,7 @@ class BringClient {
 
     getListDetails(listId) {
         return this.#authenticatedClient
-        .get("https://api.getbring.com/rest/v2/bringlists/" + listId + "/details")
+        .get("/bringlists/" + listId + "/details")
         .then((response) => {
             return response.data;
         }).catch(error => console.error(error));
@@ -155,8 +173,8 @@ class BringClient {
         if (!locale) {
             locale = this.locale;
         }
-        const axiosResponseData = this.#authenticatedClient
-            .get(`https://web.getbring.com/locale/articles.${locale}.json`)
+        const axiosResponseData = this.#insecureClient
+            .get(`/locale/articles.${locale}.json`)
             .then((response) => response.data)
             .catch((e) => console.error(e));
 
@@ -207,7 +225,7 @@ class BringClient {
         };
         return this.#authenticatedClient
         .put(
-            "https://api.getbring.com/rest/v2/bringlists/" + listId,
+            "/bringlists/" + listId,
             querystring.stringify({
             uuid: listId,
             purchase: itemName
@@ -222,7 +240,7 @@ class BringClient {
         };
         return this.#authenticatedClient
         .put(
-            "https://api.getbring.com/rest/v2/bringlists/" + listId,
+            "/bringlists/" + listId,
             querystring.stringify({
             uuid: listId,
             recently: itemName
