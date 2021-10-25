@@ -214,6 +214,7 @@ class BringClient {
             .replace(/ü/ig, "ue")
             .replace(/__/g, "_")
             .replace(/__/g, "_")
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // è, é
             .toLowerCase() + ".png";
     }
 
