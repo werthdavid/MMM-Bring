@@ -38,7 +38,7 @@ Add this configuration into `config.js` file's
        maxLatestItems: 0,
        locale: "de-DE",
        useKeyboard: false,
-       customHeader: "My shopping list", // optional
+       customTitle: "My shopping list", // optional
        listDropdown: true
     }
 }
